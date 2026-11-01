@@ -1,47 +1,38 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import * as pdfjsLib from "pdfjs-dist";
 import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PdfPage from "../components/PdfPage";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
 function ReaderPage({ file }) {
   const navigate = useNavigate();
-  const canvasRef = useRef(null); // a handle to the "canvas" below
+  const [pdf, setPdf] = useState(null); // the opened PDF (null = not ready yet)
 
+  // open the PDF once
   useEffect(() => {
     if (!file) return;
-    let stopped = false;
 
-    async function drawFirstPage() {
-      const data = await file.arrayBuffer(); // read the file
-      const pdf = await pdfjsLib.getDocument({ data }).promise; // open it
-      const page = await pdf.getPage(1); // take page 1
-
-      if (stopped) return;
-      const viewport = page.getViewport({ scale: 1.5 }); // size of the pages
-      const canvas = canvasRef.current;
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-
-      await page.render({
-        canvasContext: canvas.getContext("2d"), // paint it
-        viewport,
-      }).promise;
+    async function openPdf() {
+      const data = await file.arrayBuffer();
+      const loadedPdf = await pdfjsLib.getDocument({ data }).promise;
+      setPdf(loadedPdf);
     }
-
-    drawFirstPage();
-
-    return () => {
-      stopped = true;
-    };
+    openPdf();
   }, [file]);
 
   return (
     <div>
-      <button onClick={() => navigate("/library")}>X</button>
+      <button onClick={() => navigate("/library")}>✕</button>
       <h1>{file ? file.name : "No file"}</h1>
-      <canvas ref={canvasRef} />
+
+      {pdf && <p>{pdf.numPages} pages</p>}
+
+      {pdf &&
+        Array.from({ length: pdf.numPages }, (_, i) => (
+          <PdfPage key={i} pdf={pdf} pageNumber={i + 1} />
+        ))}
     </div>
   );
 }
