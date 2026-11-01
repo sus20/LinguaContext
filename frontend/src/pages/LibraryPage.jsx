@@ -1,10 +1,17 @@
-import "./LibraryPage.css"
+import { useNavigate } from "react-router-dom";
+import "./LibraryPage.css";
 
-function LibraryPage() {
-  // runs when the user picks a file
+function LibraryPage({onOpenFile}) {
+    const navigate = useNavigate();
+
   function handleFileChange(event) {
+    console.log("Hello! I am the handleFileChangeFunction from LibraryPage")
+
     const file = event.target.files[0];
-    console.log("Selected file:", file);
+    if (!file) return;
+
+    onOpenFile(file);   // put the file in App's box
+    navigate("/read");  // go to the reader page
   }
 
   return (
