@@ -1,19 +1,20 @@
-import { useState } from "react";
-import "./App.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import LibraryPage from "./pages/LibraryPage";
+import ReviewPage from "./pages/ReviewPage";
+import WordsPage from "./pages/WordsPage";
 
 function App() {
   return (
-    <div>
-      <h1>LinguaContext</h1>
-
-      <p>Learn vocabulary from your PDF documents.</p>
-
-      <h2>My Library</h2>
-
-      <p>No PDF documents uploaded yet.</p>
-      
-      <button>Upload PDF</button>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Navigate to="/library" />} />
+        <Route path="/library" element={<LibraryPage />} />
+        <Route path="/words" element={<WordsPage />} />
+        <Route path="/review" element={<ReviewPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
