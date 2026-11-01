@@ -1,0 +1,53 @@
+.page{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.page h1{
+    margin: 0;
+    color: var(--text);
+}
+
+.subtitle {
+    margin: 6px 0 20px;
+    color: var(--muted);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.upload-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 230px;
+    border: 2px dashed var(--blue-dark);
+    border-radius: 14px;
+    background: #eaf1fa;
+    color: var(--blue-dark);
+    cursor: pointer;
+}
+
+.upload-card:hover{
+    background: #dfe9f6;
+}
+
+.plus{
+    font-size: 32px;
+}
+
+.upload-card h3{
+    margin: 8px 0 4px;
+    color: var(--text);
+}
+
+.upload-card p{
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+}
