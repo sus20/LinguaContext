@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import "../pages/ReaderPage.css"
+import "../pages/ReaderPage.css";
 
-// paints one page of the pdf into a canvas
+ // CANVAS VIEW: Draws each PDF page on a canvas.
+// Keeps the original PDF appearance, but users cannot directly select or copy text.
 function PdfPage({ pdf, pageNumber }) {
   const canvasRef = useRef(null);
 
@@ -29,7 +30,7 @@ function PdfPage({ pdf, pageNumber }) {
     };
   }, [pdf, pageNumber]);
 
-  return <canvas ref={canvasRef} className="pdf-canvas"/>;
+  return <canvas ref={canvasRef} className="pdf-canvas" />;
 }
 
 export default PdfPage;
