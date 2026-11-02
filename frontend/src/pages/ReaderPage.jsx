@@ -3,8 +3,7 @@ import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PdfPage from "../components/PdfPage";
-import PdfPageText from "../components/PdfPageText";
-import "./ReaderPage.css"
+import "./ReaderPage.css";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -15,13 +14,18 @@ function ReaderPage({ file }) {
   // open the PDF once
   useEffect(() => {
     if (!file) return;
+    let stopped = false;
 
     async function openPdf() {
       const data = await file.arrayBuffer();
       const loadedPdf = await pdfjsLib.getDocument({ data }).promise;
+      if (stopped) return;
       setPdf(loadedPdf);
     }
     openPdf();
+    return () => {
+      stopped = true;
+    };
   }, [file]);
 
   return (
@@ -36,7 +40,7 @@ function ReaderPage({ file }) {
       <div className="reader-pages">
         {pdf &&
           Array.from({ length: pdf.numPages }, (_, i) => (
-            <PdfPageText key={i} pdf={pdf} pageNumber={i + 1} />
+            <PdfPage key={i} pdf={pdf} pageNumber={i + 1} />
           ))}
       </div>
     </div>
