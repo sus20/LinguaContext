@@ -3,13 +3,10 @@ import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/web/pdf_viewer.css";
 import "./PdfPage.css";
 
-// controls the size of the PDF page and its text layer
-const SCALE = 1.5;
-
 // Displays one PDF page using two layers:
 // canvas keeps the original PDF appearance.
 // text layer adds selectable text on top of the canvas.
-function PdfPage({ pdf, pageNumber }) {
+function PdfPage({ pdf, pageNumber, scale }) {
   const canvasRef = useRef(null);
   const textLayerRef = useRef(null);
 
@@ -27,7 +24,7 @@ function PdfPage({ pdf, pageNumber }) {
       if (stopped) return;
 
       // calculate the page dimensions using the selected scale
-      const viewport = page.getViewport({ scale: SCALE });
+      const viewport = page.getViewport({ scale: scale });
 
       // STEP 1: Draw the PDF on the canvas
       const canvas = canvasRef.current;
@@ -81,11 +78,11 @@ function PdfPage({ pdf, pageNumber }) {
       if (renderTask) renderTask.cancel();
       if (textLayer) textLayer.cancel();
     };
-  }, [pdf, pageNumber]);
+  }, [pdf, pageNumber, scale]);
 
   return (
     // keep the canvas and selectable text layer together
-    <div className="pdf-page" style={{ "--scale-factor": SCALE }}>
+    <div className="pdf-page" style={{ "--scale-factor": scale }}>
       <canvas ref={canvasRef} />
       <div ref={textLayerRef} className="textLayer" />
     </div>
