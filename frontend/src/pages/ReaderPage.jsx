@@ -3,6 +3,7 @@ import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PdfPage from "../components/PdfPage";
+import "./ReaderPage.css"
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -23,16 +24,20 @@ function ReaderPage({ file }) {
   }, [file]);
 
   return (
-    <div>
-      <button onClick={() => navigate("/library")}>✕</button>
-      <h1>{file ? file.name : "No file"}</h1>
+    <div className="reader">
+      <header className="reader-top">
+        <span className="reader-title">{file ? file.name : "No file"} </span>
+        <button className="class-btn" onClick={() => navigate("/library")}>
+          ✕
+        </button>
+      </header>
 
-      {pdf && <p>{pdf.numPages} pages</p>}
-
-      {pdf &&
-        Array.from({ length: pdf.numPages }, (_, i) => (
-          <PdfPage key={i} pdf={pdf} pageNumber={i + 1} />
-        ))}
+      <div className="reader-pages">
+        {pdf &&
+          Array.from({ length: pdf.numPages }, (_, i) => (
+            <PdfPage key={i} pdf={pdf} pageNumber={i + 1} />
+          ))}
+      </div>
     </div>
   );
 }
