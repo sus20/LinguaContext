@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PdfPage from "../components/PdfPage";
 import "./ReaderPage.css";
+import { cleanWord } from "../utils/cleanWord";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -37,6 +38,12 @@ function ReaderPage({ file }) {
     };
   }, [file]);
 
+  function handleMouseUp() {
+    const selected = cleanWord(window.getSelection().toString());
+    if (selected === "") return; // nothing selected -> do nothing
+    console.log("Selected:", selected);
+  }
+
   return (
     <div className="reader">
       <header className="reader-top">
@@ -56,7 +63,7 @@ function ReaderPage({ file }) {
         </button>
       </header>
 
-      <div className="reader-pages">
+      <div className="reader-pages" onMouseUp={handleMouseUp}>
         {pdf &&
           Array.from({ length: pdf.numPages }, (_, i) => (
             <PdfPage key={i} pdf={pdf} pageNumber={i + 1} scale={scale} />
