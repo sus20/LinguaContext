@@ -1,0 +1,21 @@
+/* TEXT VIEW: Displays PDF text as normal HTML, without the original PDF layout */
+.page-text{
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    background: white;
+    border-radius: 6px;
+    line-height: 1.7;
+    font-size: 17px;
+    white-space: pre-wrap;
+}
+
+/* A single clickable word */
+.word{
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.word:hover{
+    background: #dbe7f5; /* light blue when the mouse is on the word */
+}
