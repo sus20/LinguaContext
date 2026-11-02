@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import "../pages/ReaderPage.css"
 
 // paints one page of the pdf into a canvas
 function PdfPage({ pdf, pageNumber }) {
@@ -28,7 +29,7 @@ function PdfPage({ pdf, pageNumber }) {
     };
   }, [pdf, pageNumber]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} className="pdf-canvas"/>;
 }
 
 export default PdfPage;
