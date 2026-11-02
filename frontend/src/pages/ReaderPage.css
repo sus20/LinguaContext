@@ -7,7 +7,7 @@
     background-color: #1f1f1f;
 }
 
-/*Top bar: name of pdf file left, X right*/
+/* Top bar: name of pdf file left, X right */
 .reader-top{
     display: flex;
     justify-content: space-between;
@@ -30,35 +30,14 @@
 }
 
 
-/*the area with the pages: scrolls, pages in the middle*/
+/* the area with the pages: scrolls, pages in the middle */
 
 .reader-pages{
-    flex: 1;                /*take all the space under the top bar*/
-    overflow-y: auto;       /*scroll up and down here*/
+    flex: 1;                /* take all the space under the top bar */
+    overflow-y: auto;       /* scroll up and down here */
     display: flex;
     flex-direction: column;
-    align-items: center;    /*<- this puts the pages in the middle*/
-    gap: 16px;              /*space between the pages*/
+    align-items: center;    /* <- this puts the pages in the middle */
+    gap: 16px;              /* space between the pages */
     padding: 24px;
-}
-
-/*CANVAS VIEW: Displays each PDF page visually, keeping its original appearance*/
-.pdf-canvas{
-    max-width: 100%;        /*never wider than the screen*/
-    height: auto;           /*keep the right shape*/
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-/*TEXT VIEW: Displays PDF text as normal HTML, without the original PDF layout*/
-.page-text{
-    width: 100%;
-    max-width: 800px;
-    padding: 40px;
-    background: white;
-    border-radius: 6px;
-    line-height: 1.7;
-    font-size: 17px;
-    white-space: pre-wrap;
-
 }
