@@ -1,7 +1,10 @@
-/* CANVAS VIEW: Displays each PDF page visually, keeping its original appearance */
-.pdf-canvas{
-    max-width: 100%;        /* never wider than the screen */
-    height: auto;           /* keep the right shape */
+.pdf-page{
+    position: relative;
+    flex-shrink: 0;
     background: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.pdf-page canvas{
+    display: block;
 }
