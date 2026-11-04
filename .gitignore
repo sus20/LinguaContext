@@ -2,8 +2,10 @@
 # Python / FastAPI
 .vscode/
 backend/venv/
+backend/docker/database.env
+backend/uploads/
 *.pyc
-.env
+*.env
 
 # Logs
 logs/
