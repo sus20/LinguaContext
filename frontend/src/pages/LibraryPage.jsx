@@ -1,17 +1,26 @@
 import { useNavigate } from "react-router-dom";
+import { uploadDocument } from "../api/documents.api";
 import "./LibraryPage.css";
 
-function LibraryPage({onOpenFile}) {
-    const navigate = useNavigate();
+function LibraryPage() {
+  const navigate = useNavigate();
 
-  function handleFileChange(event) {
-    console.log("Hello! I am the handleFileChangeFunction from LibraryPage")
-
+  async function handleFileChange(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    onOpenFile(file);   // put the file in App's box
-    navigate("/read");  // go to the reader page
+    try {
+      // upload the pdf to the backend
+      const answer = await uploadDocument(file);
+
+      // print the backend response
+      console.log("Backend resoponse:", answer);
+
+      // Navigate using the document ID
+      navigate(`/read/${answer.document.id}`);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   }
 
   return (
