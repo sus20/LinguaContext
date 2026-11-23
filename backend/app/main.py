@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import models
 from app.database import Base, engine
-from app.routers import documents, health
+from app.routers import documents, word_explanation, health
 
 
 # create all tables that don't exist yet
@@ -20,3 +20,4 @@ app.add_middleware(
 
 app.include_router(health.router)
 app.include_router(documents.router)
+app.include_router(word_explanation.router)
