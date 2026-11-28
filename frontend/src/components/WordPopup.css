@@ -1,0 +1,54 @@
+.word-popup {
+  position: fixed;          /* placed on the screen at x/y */
+  z-index: 20;              /* above the PDF pages */
+  width: 320px;
+  padding: 16px;
+  background: white;
+  color: var(--text);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.word-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word-popup-header h3 {
+  margin: 0;
+  color: var(--navy);
+}
+
+.word-popup-close {
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.word-popup-type { margin: 8px 0 4px; }
+.word-popup-label { margin: 0; font-size: 12px; font-weight: 600; color: var(--muted); }
+.word-popup-sentence { margin: 4px 0; font-style: italic; }
+.word-popup-muted { margin: 4px 0; color: var(--muted); }
+.word-popup-error { color: #b42318; }
+
+.word-popup hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 10px 0;
+}
+
+.word-popup-save {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #3d8b5a;      /* green, like your design */
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
