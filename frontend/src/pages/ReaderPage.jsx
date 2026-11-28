@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PdfPage from "../components/PdfPage";
 import { getDocument, getDocumentFileUrl } from "../api/documents.api";
+import { explainWord } from "../api/explain.api";
 import "./ReaderPage.css";
 import { cleanWord } from "../utils/cleanWord";
+import WordPopup from "../components/WordPopup";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
@@ -14,6 +16,7 @@ function ReaderPage() {
   const { documentId } = useParams();
 
   const [pdf, setPdf] = useState(null); // the opened PDF (null = not ready yet)
+  const [popup, setPopup] = useState(null);
   const [documentInfo, setDocumentInfo] = useState(null);
   const [scale, setScale] = useState(1.5);
   const [error, setError] = useState(null);
@@ -62,10 +65,39 @@ function ReaderPage() {
     };
   }, [documentId]);
 
-  function handleMouseUp() {
-    const selected = cleanWord(window.getSelection().toString());
-    if (selected === "") return; // nothing selected -> do nothing
-    console.log("Selected:", selected);
+  async function handleMouseUp() {
+    const selection = window.getSelection();
+    const word = cleanWord(selection.toString());
+
+    // a normal click (nothing selected closes the popup)
+    if (word === "") {
+      setPopup(null);
+      return;
+    }
+
+    const line = selection.anchorNode?.parentElement?.textContent || word;
+
+    // where is the word on the screen? -> put the popup under it.
+    const rect = selection.getRangeAt(0).getBoundingClientRect();
+    const x = Math.min(rect.left, window.innerWidth - 340); // not outside on the right
+    const y = Math.min(rect.bottom + 8, window.innerHeight - 380); // not outside at the bottom
+
+    // open the popup at once, with "Asking u:ai.."
+    setPopup({ word, sentence: line, x, y, loading: true });
+
+    // ask u:ai, then put the answer into the popup
+    try {
+      const result = await explainWord(word, line);
+      setPopup((old) =>
+        old && old.word === word ? { ...old, loading: false, result } : old,
+      );
+    } catch (error) {
+      setPopup((old) =>
+        old && old.word === word
+          ? { ...old, loading: false, error: error.message }
+          : old,
+      );
+    }
   }
 
   return (
@@ -95,6 +127,7 @@ function ReaderPage() {
             <PdfPage key={i} pdf={pdf} pageNumber={i + 1} scale={scale} />
           ))}
       </div>
+      {popup && <WordPopup popup={popup} onClose={() => setPopup(null)} />}
     </div>
   );
 }
