@@ -29,3 +29,20 @@ export async function getDocument(documentId) {
 export function getDocumentFileUrl(documentId) {
   return `${API_BASE_URL}/documents/${documentId}/file`;
 }
+
+// get the list of all uploaded documents
+export async function getDocuments() {
+  const response = await fetch(`${API_BASE_URL}/documents`);
+  return response.json();
+}
+
+// Delete a document (database row + PDF file)
+export async function deleteDocument(documentId) {
+  const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not delete the document");
+  }
+}
