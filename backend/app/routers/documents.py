@@ -155,3 +155,24 @@ def get_document_file(document_id: int, db: Session = Depends(get_db)):
         filename=document.filename,
         content_disposition_type="inline"
     )
+
+
+@router.delete("/{document_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_document(document_id: int, db: Session = Depends(get_db)):
+    """Delete a document: the database row AND the PDF file."""
+
+    document = find_document_by_id(db, document_id)
+    file_path = UPLOAD_DIR / document.file_path
+
+    # delete the row in the database
+    try:
+        db.delete(document)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+
+    # delete the PDF file on disk
+    file_path.unlink(missing_ok=True)
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
