@@ -7,4 +7,7 @@ class WordExplanationRequest(BaseModel):
 
 
 class WordExplanationResponse(BaseModel):
+    translation: str
+    word_type: str
     explanation: str
+    sentence_translation: str
